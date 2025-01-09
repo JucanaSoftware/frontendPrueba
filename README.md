@@ -1,27 +1,81 @@
-# FrontendPrueba
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12.
+# Prueba Tecnica LER Preveción
 
-## Development server
+Aque mostrare el proceso para ejecutar los proyectos backend y frontend.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Para esto es necesario tener instalado lo siguente:
 
-## Code scaffolding
+- Angular 18 o superior.
+- Node JS 20.17.0 o superior.
+- PostgreSQL 17 o superior.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Configuracion de la base de datos
 
-## Running unit tests
+Vamos a iniciar con la configuración de la base de datos,en nuestro gestor de base de datos, por ejemplo PgAdmin.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Vamos a crear la base de datos; este es un ejemplo de cómo podemos hacerlo.
 
-## Running end-to-end tests
+```sql
+  CREATE DATABASE db_node;
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Luego crearemos la tabla correspondiente:
 
-## Further help
+```sql
+  CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100),
+    correo VARCHAR(100),
+    edad INT
+    );
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Para insertar datos para probar podemos ayudarnos de la siguiente Query:
+
+```sql
+ INSERT INTO public.usuarios(
+     nombre, correo, edad)
+    VALUES ( 'Ted Mosby', 'mosbyted@mail.com', 40);
+ );
+```
+## Ejecutar Back-end
+
+Es importante que antes de ejecutar el Back-end debemos validar que las credenciales de acceso la base de datos sean las correctas, para eso abrimos la carpeta del proyecto, iremos a la carpeta config y editaremos el archivo dbconfig. El cual contiene esta sección de código:
+
+```php
+  const pool = new Pool({
+  user: 'tu_usuario*',    
+  host: 'localhost',      
+  database: 'tu_base_de_datos*', 
+  password: 'tu_clave_de_postgres*', 
+  port: 5432,              
+});
+```
+Cambiaremos los datos que contengan el asterisco por los datos correspondientes a nuestra configuración.
+
+Vamos a abrir una terminal ubicados dentro de la carpeta del proyecto y vamos a Ejecutar:
+
+```bash
+  node index.js
+```
+#### Vamos a ayudarnos de Postman para verificar que la API con la siguiente dirección usando el método GET:
+
+```http
+  GET http://localhost:3000/api/data
+```
+## Ejecutar Fron-tend
+
+Vamos a abrir una terminal ubicados dentro de la carpeta llamada frontend_prueba y vamos a Ejecutar:
+
+```bash
+  ng serve
+```
+Luego nos dirá en que dirección donde de desplego la aplicación normalmente es:
+```http
+   http://localhost:4200/
+```
+
+
+
